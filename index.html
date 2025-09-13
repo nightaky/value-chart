@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Value Chart — Örnek</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#60a5fa}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{background:linear-gradient(180deg,#071025 0%,#081226 100%);color:#e6eef8;padding:24px}
+    .app{max-width:1100px;margin:0 auto}
+    header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+    h1{font-size:20px;margin:0}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+    .search,select,input[type=range]{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;padding:12px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:10px 12px;text-align:left;font-size:14px}
+    th{cursor:pointer;position:relative;color:var(--muted);font-weight:600}
+    tr:nth-child(even) td{background:rgba(255,255,255,0.01)}
+    .value-bar{height:10px;border-radius:6px;background:linear-gradient(90deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));overflow:hidden}
+    .value-fill{height:100%;border-radius:6px}
+    .small{font-size:12px;color:var(--muted)}
+    .actions{display:flex;gap:8px}
+    button{padding:8px 10px;border-radius:8px;border:0;background:var(--accent);color:#022;cursor:pointer}
+    @media (max-width:720px){th,td{font-size:13px;padding:8px}header{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Value Chart — Örnek (tek dosya)</h1>
+      <div class="controls">
+        <input class="search" id="q" placeholder="Ara... (isim, tür, not)" />
+        <select id="typeFilter">
+          <option value="">Tüm türler</option>
+        </select>
+        <label class="small">Skala max: <input id="maxRange" type="range" min="1" max="1000" value="100" /></label>
+        <div class="actions">
+          <button id="exportCsv">CSV'ye aktar</button>
+          <button id="reset">Sıfırla</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="small">Tablo başlıklarına tıklayarak sıralama yapabilirsiniz. Renklendirme değer yüzdesine göre yapılır.</div>
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th data-key="name">Item</th>
+            <th data-key="type">Tür</th>
+            <th data-key="value">Değer</th>
+            <th>Görsel</th>
+            <th data-key="notes">Notlar</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <footer style="margin-top:12px;color:var(--muted);font-size:13px">Bu dosya örnektir — veriyi değiştirmek için &quot;DATA&quot; sabitini düzenleyin veya harici JSON yükleyin.</footer>
+  </div>
+
+  <script>
+    // ---------- ÖRNEK VERİ (kolayca harici JSON ile değiştirebilirsiniz) ----------
+    const DATA = [
+      {name: 'Sword of Dawn', type: 'Weapon', value: 95, notes: 'Meta weapon', image: ''},
+      {name: 'Shield (Oak)', type: 'Armor', value: 40, notes: 'Cheap', image: ''},
+      {name: 'Healing Potion', type: 'Consumable', value: 15, notes: 'Common', image: ''},
+      {name: 'Dragon Helm', type: 'Armor', value: 310, notes: 'Rare spawn', image: ''},
+      {name: 'Arcane Scroll', type: 'Misc', value: 220, notes: 'Quest item', image: ''},
+      {name: 'Custom Duel Token', type: 'Currency', value: 5, notes: 'Used in duels', image: ''}
+    ];
+    // -----------------------------------------------------------------------------
+
+    // Config
+    let state = {data: DATA.slice(), q:'', type:'', sortKey: 'value', sortDir: -1, maxScale:100};
+
+    // Helpers
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+
+    function uniqueTypes(arr){ return Array.from(new Set(arr.map(x=>x.type))).sort(); }
+
+    function renderFilterOptions(){
+      const select = $('#typeFilter');
+      const types = uniqueTypes(DATA);
+      select.innerHTML = '<option value="">Tüm türler</option>' + types.map(t => `<option value="${t}">${t}</option>`).join('');
+    }
+
+    function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+
+    function valueToPercent(v){
+      const pct = (v / state.maxScale) * 100;
+      return clamp(pct, 0, 100);
+    }
+
+    function colorForPercent(p){
+      // 0 -> red-ish, 50 -> yellow-ish, 100 -> green-ish (simple linear lerp)
+      const r = p<50 ? 255 : Math.round(255 - (p-50)*5.1);
+      const g = p>50 ? 200 : Math.round(p*4);
+      return `linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%), linear-gradient(90deg, rgba(${r},${g},60,0.95) 0%, rgba(${r},${g},60,0.6) ${p}%)`;
+    }
+
+    function renderTable(){
+      const tbody = $('#tbl tbody');
+      const q = state.q.trim().toLowerCase();
+      let rows = state.data.filter(row => {
+        const matchesQ = !q || [row.name,row.type,row.notes].join(' ').toLowerCase().includes(q);
+        const matchesType = !state.type || row.type === state.type;
+        return matchesQ && matchesType;
+      });
+
+      rows.sort((a,b)=>{
+        const k = state.sortKey;
+        if(k==='value') return state.sortDir*(a.value - b.value);
+        const av = (a[k]||'').toString().toLowerCase();
+        const bv = (b[k]||'').toString().toLowerCase();
+        return state.sortDir*(av>bv?1:av<bv?-1:0);
+      });
+
+      tbody.innerHTML = rows.map(r => {
+        const pct = valueToPercent(r.value);
+        const style = `background:${colorForPercent(pct)}`;
+        return `
+          <tr>
+            <td><strong>${escapeHtml(r.name)}</strong><div class="small">${r.value} points</div></td>
+            <td>${escapeHtml(r.type)}</td>
+            <td style="min-width:220px;">
+              <div class="value-bar" title="${r.value} out of ${state.maxScale}">
+                <div class="value-fill" style="width:${pct}%;${style}"></div>
+              </div>
+              <div class="small">%${pct.toFixed(1)}</div>
+            </td>
+            <td>${r.image?`<img src='${r.image}' alt='' style='height:36px;border-radius:6px' />`:'—'}</td>
+            <td>${escapeHtml(r.notes)}</td>
+          </tr>`;
+      }).join('');
+    }
+
+    function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+
+    // Events
+    document.addEventListener('click', e => {
+      const th = e.target.closest('th');
+      if(!th) return;
+      const k = th.dataset.key;
+      if(!k) return;
+      if(state.sortKey === k) state.sortDir *= -1; else { state.sortKey = k; state.sortDir = -1; }
+      renderTable();
+    });
+
+    $('#q').addEventListener('input', e => { state.q = e.target.value; renderTable(); });
+    $('#typeFilter').addEventListener('change', e => { state.type = e.target.value; renderTable(); });
+    $('#maxRange').addEventListener('input', e => { state.maxScale = Number(e.target.value); renderTable(); });
+    $('#reset').addEventListener('click', ()=>{ state = {data: DATA.slice(), q:'', type:'', sortKey:'value', sortDir:-1, maxScale:100}; $('#q').value=''; $('#typeFilter').value=''; $('#maxRange').value=100; renderTable(); });
+
+    $('#exportCsv').addEventListener('click', ()=>{
+      const rows = state.data.map(r => [r.name,r.type,r.value,r.notes]);
+      const csv = ['Name,Type,Value,Notes', ...rows.map(r => r.map(x=>`"${(''+x).replace(/"/g,'""')}"`).join(','))].join('\n');
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'values.csv'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    // Optionally load external JSON named data.json hosted alongside this file
+    async function tryLoadExternal(){
+      try{
+        const res = await fetch('./data.json');
+        if(!res.ok) return;
+        const external = await res.json();
+        if(Array.isArray(external) && external.length) state.data = external;
+      }catch(e){/* ignore */}
+    }
+
+    // Init
+    (async function init(){
+      await tryLoadExternal();
+      renderFilterOptions();
+      renderTable();
+    })();
+  </script>
+</body>
+</html>
