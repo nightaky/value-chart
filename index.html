@@ -65,17 +65,17 @@
   <script>
     // ---------- ÖRNEK VERİ (kolayca harici JSON ile değiştirebilirsiniz) ----------
     const DATA = [
-      {name: 'Sword of Dawn', type: 'Weapon', value: 95, notes: 'Meta weapon', image: ''},
-      {name: 'Shield (Oak)', type: 'Armor', value: 40, notes: 'Cheap', image: ''},
-      {name: 'Healing Potion', type: 'Consumable', value: 15, notes: 'Common', image: ''},
-      {name: 'Dragon Helm', type: 'Armor', value: 310, notes: 'Rare spawn', image: ''},
-      {name: 'Arcane Scroll', type: 'Misc', value: 220, notes: 'Quest item', image: ''},
-      {name: 'Custom Duel Token', type: 'Currency', value: 5, notes: 'Used in duels', image: ''}
+      {name: 'Empyrean', type: 'Godly', value: 1, notes: 'shit sword', image: ''},
+      {name: 'Sin of Christ', type: 'Godly', value: 0,1, notes: 'a cheap sword', image: ''},
+      {name: 'Soul reaper', type: 'Exclusive', value: 20, notes: 'wow portal cool', image: ''},
+      {name: 'Stardust', type: 'Armor', value: 310, notes: 'feminine', image: ''},
+      {name: 'Nayt', type: 'Null', value: 96, notes: '4 percent gay sadly...', image: ''},
+      {name: 'Custom Duel Developer team', type: 'Null', value: 0, notes: 'Useless', image: ''}
     ];
     // -----------------------------------------------------------------------------
 
     // Config
-    let state = {data: DATA.slice(), q:'', type:'', sortKey: 'value', sortDir: -1, maxScale:100};
+    let state = {data: DATA.slice(), q:'', type:'', sortKey: 'value', sortDir: -1, maxScale:1000};
 
     // Helpers
     const $ = s => document.querySelector(s);
