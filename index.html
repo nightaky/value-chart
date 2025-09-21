@@ -5,17 +5,19 @@
   <title>Sword Value Tracker</title>
   <style>
     body { background: #1e1e1e; color: white; font-family: Arial; }
-    .card { background: #2c2c2c; padding: 20px; margin: 10px; border-radius: 12px; width: 200px; display: inline-block; }
+    .card { background: #2c2c2c; padding: 20px; margin: 10px; border-radius: 12px; width: 200px; display: inline-block; vertical-align: top; }
     img { max-width: 100%; border-radius: 8px; }
     .value { color: white; } /* Değer rengi beyaz kalır */
-    
+    .rarity-group { margin-bottom: 20px; }
+    .rarity-group h2 { margin-bottom: 10px; }
+
     /* Nadirlik renkleri */
-    .godly { color: red; }
-    .exclusive { color: pink; }
-    .collectible { color: green; }
-    .epic { color: purple; }
-    .legendary { color: orange; }
-    .rare { color: blue; }
+    .godly { color: red; }
+    .exclusive { color: pink; }
+    .collectible { color: green; }
+    .epic { color: purple; }
+    .legendary { color: orange; }
+    .rare { color: blue; }
   </style>
 </head>
 <body>
@@ -32,17 +34,37 @@
       {name: "Empyrean", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430826659024926/empyrean.png?ex=68d1bb78&is=68d069f8&hm=a54398f42dbfb75b41289a379bdf9a353a73d5ad4d8107dee71720827e175116&=&format=webp&quality=lossless", rarity: "Godly", value: 32, demand: "Good"},
     ];
 
-    const container = document.getElementById("swords");
-    swords.forEach(s => {
-      const rarityClass = s.rarity.toLowerCase(); // Nadirlik adını küçük harfe çevir
-      container.innerHTML += `
-        <div class="card">
-          <img src="${s.image}" alt="${s.name}">
-          <h3 class="${rarityClass}">${s.name}</h3>           <p class="value">Value: ${s.value}</p>
-          <p>Demand: ${s.demand}</p>
-        </div>
-      `;
-    });
+    // Nadirliklere göre gruplandır
+    const groupedSwords = {};
+    swords.forEach(s => {
+        if (!groupedSwords[s.rarity]) {
+            groupedSwords[s.rarity] = [];
+        }
+        groupedSwords[s.rarity].push(s);
+    });
+
+    const container = document.getElementById("swords");
+    const rarityOrder = ["Godly", "Exclusive", "Legendary", "Collectible", "Epic", "Rare"];
+
+    rarityOrder.forEach(rarity => {
+        const group = groupedSwords[rarity];
+        if (group) {
+            const rarityClass = rarity.toLowerCase();
+            let groupHtml = `<div class="rarity-group"><h2><span class="${rarityClass}">${rarity}</span></h2><div>`;
+            group.forEach(s => {
+                groupHtml += `
+                    <div class="card">
+                        <img src="${s.image}" alt="${s.name}">
+                        <h3><span class="${rarityClass}">${s.name}</span></h3>
+                        <p class="value">Value: ${s.value}</p>
+                        <p>Demand: ${s.demand}</p>
+                    </div>
+                `;
+            });
+            groupHtml += `</div></div>`;
+            container.innerHTML += groupHtml;
+        }
+    });
   </script>
 </body>
 </html>
