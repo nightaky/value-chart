@@ -1,85 +1,44 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <title>Sword Value Tracker</title>
-
-  <style>
-
-    body { background: #1e1e1e; color: white; font-family: Arial; }
-
-    .card { background: #2c2c2c; padding: 20px; margin: 10px; border-radius: 12px; width: 200px; display: inline-block; }
-
-    img { max-width: 100%; border-radius: 8px; }
-
-    .value { color: red; }
-
-    .rarity { font-weight: bold; }
-
-  </style>
-
+  <meta charset="UTF-8">
+  <title>Sword Value Tracker</title>
+  <style>
+    body { background: #1e1e1e; color: white; font-family: Arial; }
+    .card { background: #2c2c2c; padding: 20px; margin: 10px; border-radius: 12px; width: 200px; display: inline-block; }
+    img { max-width: 100%; border-radius: 8px; }
+    .value { color: cyan; }
+    .rarity { font-weight: bold; }
+  </style>
 </head>
-
 <body>
+  <h1>Sword Value Tracker</h1>
+  <div id="swords"></div>
 
-  <h1>Sword Value Tracker</h1>
-
-  <div id="swords"></div>
-
-
-
-  <script>
-
-    // API'den çekilecek (şimdilik test için sabit data)
-
-    const swords = [
-
-      {name: "Cupid's Arrow", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430502900826225/cupidarrow.png?ex=68d1bb2b&is=68d069ab&hm=c6e829565aeff22d5e24b3132002fcd6d283929ab81023b550c94265a50cb6c0&=&format=webp&quality=lossless", rarity: "Godly", value: 150, demand: "Incredible"},
-
+  <script>
+    // API'den çekilecek (şimdilik test için sabit data)
+    const swords = [
+      {name: "Cupid's Arrow", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430502900826225/cupidarrow.png?ex=68d1bb2b&is=68d069ab&hm=c6e829565aeff22d5e24b3132002fcd6d283929ab81023b550c94265a50cb6c0&=&format=webp&quality=lossless", rarity: "Godly", value: 150, demand: "Incredible"},
       {name: "SoC", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430561801437345/sinofchrist.png?ex=68d1bb39&is=68d069b9&hm=a5140c5482d9f11a8a5709db1a418609f47d23e7aa0b05e2fde02376b79f71bb&=&format=webp&quality=lossless", rarity: "Godly", value: 115, demand: "Incredible"},
+      {name: "Behemoth", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430612032421908/behemoth.png?ex=68d1bb45&is=68d069c5&hm=45f15b8ad7e96b01dd4561f1674c096606129908cfec45e076f9f067b37e95b5&=&format=webp&quality=lossless", rarity: "Godly", value: 88, demand: "Good"},
+      {name: "Nature's Embrace", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430725626888282/nature.png?ex=68d1bb60&is=68d069e0&hm=dcfacad1f8f306eaa778ab0b383a6eab213f924d62426ae4bbcf8d3d94e3ffda&=&format=webp&quality=lossless", rarity: "Godly", value: 78, demand: "Good"},
+      {name: "Stardust", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430771713769645/stardust.png?ex=68d1bb6b&is=68d069eb&hm=6fdec13c48ada49597605508f402b959f57cd8188045d4e17fa7aa8628badd5f&=&format=webp&quality=lossless", rarity: "Godly", value: 55, demand: "Good"},
+      {name: "Empyrean", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430826659024926/empyrean.png?ex=68d1bb78&is=68d069f8&hm=a54398f42dbfb75b41289a379bdf9a353a73d5ad4d8107dee71720827e175116&=&format=webp&quality=lossless", rarity: "Godly", value: 32, demand: "Good"},
 
-      {name: "Behemoth", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430612032421908/behemoth.png?ex=68d1bb45&is=68d069c5&hm=45f15b8ad7e96b01dd4561f1674c096606129908cfec45e076f9f067b37e95b5&=&format=webp&quality=lossless", rarity: "Godly", value: 88, demand: "Good"},
+    ];
 
-      {name: "Nature's Embrace", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430725626888282/nature.png?ex=68d1bb60&is=68d069e0&hm=dcfacad1f8f306eaa778ab0b383a6eab213f924d62426ae4bbcf8d3d94e3ffda&=&format=webp&quality=lossless", rarity: "Godly", value: 78, demand: "Good"},
-
-      {name: "Stardust", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430771713769645/stardust.png?ex=68d1bb6b&is=68d069eb&hm=6fdec13c48ada49597605508f402b959f57cd8188045d4e17fa7aa8628badd5f&=&format=webp&quality=lossless", rarity: "Godly", value: 55, demand: "Good"},
-
-      {name: "Empyrean", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430826659024926/empyrean.png?ex=68d1bb78&is=68d069f8&hm=a54398f42dbfb75b41289a379bdf9a353a73d5ad4d8107dee71720827e175116&=&format=webp&quality=lossless", rarity: "Godly", value: 32, demand: "Good"},
-
-    ];
-
-
-
-    const container = document.getElementById("swords");
-
-    swords.forEach(s => {
-
-      container.innerHTML += `
-
-        <div class="card">
-
-          <img src="${s.image}" alt="${s.name}">
-
-          <h3>${s.name}</h3>
-
-          <p class="rarity">${s.rarity}</p>
-
-          <p class="value">Value: ${s.value}</p>
-
-          <p>Demand: ${s.demand}</p>
-
-        </div>
-
-      `;
-
-    });
-
-  </script>
-
+    const container = document.getElementById("swords");
+    swords.forEach(s => {
+      container.innerHTML += `
+        <div class="card">
+          <img src="${s.image}" alt="${s.name}">
+          <h3>${s.name}</h3>
+          <p class="rarity">${s.rarity}</p>
+          <p class="value">Value: ${s.value}</p>
+          <p>Demand: ${s.demand}</p>
+        </div>
+      `;
+    });
+  </script>
 </body>
-
 </html>
