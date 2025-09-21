@@ -7,17 +7,17 @@
     body { background: #1e1e1e; color: white; font-family: Arial; }
     .card { background: #2c2c2c; padding: 20px; margin: 10px; border-radius: 12px; width: 200px; display: inline-block; vertical-align: top; }
     img { max-width: 100%; border-radius: 8px; }
-    .value { color: white; } /* Değer rengi beyaz kalır */
-    .rarity-group { margin-bottom: 20px; }
+    .value { color: white; }
+    .rarity-group { margin-bottom: 20px; }
     .rarity-group h2 { margin-bottom: 10px; }
 
     /* Nadirlik renkleri */
-    .godly { color: red; }
-    .exclusive { color: pink; }
-    .collectible { color: green; }
-    .epic { color: purple; }
-    .legendary { color: orange; }
-    .rare { color: blue; }
+    .godly { color: red; }
+    .exclusive { color: pink; }
+    .collectible { color: green; }
+    .epic { color: purple; }
+    .legendary { color: orange; }
+    .rare { color: blue; }
   </style>
 </head>
 <body>
@@ -32,6 +32,11 @@
       {name: "Nature's Embrace", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430725626888282/nature.png?ex=68d1bb60&is=68d069e0&hm=dcfacad1f8f306eaa778ab0b383a6eab213f924d62426ae4bbcf8d3d94e3ffda&=&format=webp&quality=lossless", rarity: "Godly", value: 78, demand: "Good"},
       {name: "Stardust", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430771713769645/stardust.png?ex=68d1bb6b&is=68d069eb&hm=6fdec13c48ada49597605508f402b959f57cd8188045d4e17fa7aa8628badd5f&=&format=webp&quality=lossless", rarity: "Godly", value: 55, demand: "Good"},
       {name: "Empyrean", image: "https://media.discordapp.net/attachments/1393602344083787929/1419430826659024926/empyrean.png?ex=68d1bb78&is=68d069f8&hm=a54398f42dbfb75b41289a379bdf9a353a73d5ad4d8107dee71720827e175116&=&format=webp&quality=lossless", rarity: "Godly", value: 32, demand: "Good"},
+      // Ek nadirlik türleri için örnekler
+      {name: "d", image: "https://via.placeholder.com/150", rarity: "Exclusive", value: 120, demand: "High"},
+      {name: "c", image: "https://via.placeholder.com/150", rarity: "Legendary", value: 45, demand: "Medium"},
+      {name: "b", image: "https://via.placeholder.com/150", rarity: "Collectible", value: 25, demand: "Low"},
+      {name: "a", image: "https://via.placeholder.com/150", rarity: "Epic", value: 15, demand: "Low"}
     ];
 
     // Nadirliklere göre gruplandır
@@ -65,6 +70,7 @@
             container.innerHTML += groupHtml;
         }
     });
+
   </script>
 </body>
 </html>
