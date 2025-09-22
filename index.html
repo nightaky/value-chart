@@ -5,19 +5,33 @@
   <title>Custom Duels Sword Values (Most Recent)</title>
   <style>
     body { 
-      background: #1e1e1e; 
+      background: #1e1e1e url("https://i.postimg.cc/0NjBwTBD/stardust.png") no-repeat center center fixed; 
+      background-size: cover;
       color: white; 
       font-family: Arial; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
+      max-width: 80%;
+      margin: auto;
     }
     h1 { margin-top: 20px; }
-    #swords { 
-      display: flex; 
-      flex-wrap: wrap; 
-      justify-content: center; 
-      margin: 20px; 
+
+    .rarity-section {
+      width: 100%;
+      margin: 20px 0;
+    }
+    .rarity-title {
+      font-size: 24px;
+      margin: 10px;
+      text-align: center;
+      border-bottom: 2px solid #555;
+      padding-bottom: 5px;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .card { 
       background: #2c2c2c; 
@@ -43,11 +57,61 @@
     .value { font-weight: bold; }
     .rarity { font-weight: bold; transition: color 0.3s, text-shadow 0.3s; }
     .demand { font-weight: bold; transition: color 0.3s; }
+
+    /* Sol alt köşe buton */
+    #infoBtn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #444;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #infoPanel {
+      display: none;
+      position: fixed;
+      bottom: 70px;
+      left: 20px;
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    #infoPanel img {
+      max-width: 100%;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+    #infoPanel h2 {
+      margin-top: 0;
+      border-bottom: 1px solid #555;
+      padding-bottom: 5px;
+    }
   </style>
 </head>
 <body>
   <h1>Custom Duels Sword Values (Most Recent)</h1>
+  
   <div id="swords"></div>
+
+  <!-- Info Buton & Panel -->
+  <button id="infoBtn">Info</button>
+  <div id="infoPanel">
+    <h2>Credits</h2>
+    <p>Most Recent Value List</p>
+    <h2>Photos</h2>
+    <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3E0460C3E925E0CD3DFF2EEAEFBA8D73-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Nayt">
+    <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3E0460C3E925E0CD3DFF2EEAEFBA8D73-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Roy">
+    <h2>Açıklamalar</h2>
+    <ul>
+      <li>Buraya açıklama maddesi ekle</li>
+      <li>İstediğin kadar madde koyabilirsin</li>
+    </ul>
+  </div>
 
   <script>
     const swords = [
@@ -90,8 +154,17 @@
 
     const container = document.getElementById("swords");
 
+    // rarity grupları
+    const rarities = ["Godly","Exclusive","Legendary","Collectible"];
+    rarities.forEach(r => {
+      let section = document.createElement("div");
+      section.className = "rarity-section";
+      section.innerHTML = `<div class="rarity-title">${r}</div><div class="cards" id="cards-${r}"></div>`;
+      container.appendChild(section);
+    });
+
     swords.forEach(s => {
-      // Rarity renkleri
+      // Renkler
       let rarityColor = "white"; 
       switch(s.rarity) {
         case "Godly": rarityColor = "red"; break;
@@ -101,8 +174,6 @@
         case "Epic": rarityColor = "purple"; break;
         case "Rare": rarityColor = "blue"; break;
       }
-
-      // Demand renkleri
       let demandColor = "white";
       switch(s.demand.toLowerCase()) {
         case "magnificent": demandColor = "purple"; break;
@@ -112,7 +183,7 @@
         case "meh": demandColor = "red"; break;
       }
 
-      container.innerHTML += `
+      let cardHTML = `
         <div class="card">
           <img src="${s.image}" alt="${s.name}">
           <h3>${s.name}</h3>
@@ -121,6 +192,15 @@
           <p class="demand" style="color: ${demandColor}">Demand: ${s.demand}</p>
         </div>
       `;
+      let section = document.getElementById("cards-" + s.rarity);
+      if(section) section.innerHTML += cardHTML;
+    });
+
+    // Info panel aç-kapa
+    const infoBtn = document.getElementById("infoBtn");
+    const infoPanel = document.getElementById("infoPanel");
+    infoBtn.addEventListener("click", () => {
+      infoPanel.style.display = infoPanel.style.display === "block" ? "none" : "block";
     });
   </script>
 </body>
