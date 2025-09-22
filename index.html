@@ -4,11 +4,45 @@
   <meta charset="UTF-8">
   <title>Custom Duels Sword Values (Most Recent)</title>
   <style>
-    body { background: #1e1e1e; color: white; font-family: Arial; }
-    .card { background: #2c2c2c; padding: 20px; margin: 10px; border-radius: 12px; width: 200px; display: inline-block; }
-    img { max-width: 100%; border-radius: 8px; }
-    .value { color: white; }
-    .rarity { font-weight: bold; }
+    body { 
+      background: #1e1e1e; 
+      color: white; 
+      font-family: Arial; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+    }
+    h1 { margin-top: 20px; }
+    #swords { 
+      display: flex; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+      margin: 20px; 
+    }
+    .card { 
+      background: #2c2c2c; 
+      padding: 20px; 
+      margin: 10px; 
+      border-radius: 12px; 
+      width: 200px; 
+      display: inline-block; 
+      transition: transform 0.3s, box-shadow 0.3s; 
+    }
+    .card:hover { 
+      transform: translateY(-10px); 
+      box-shadow: 0 15px 25px rgba(0,0,0,0.5); 
+    }
+    img { 
+      max-width: 100%; 
+      border-radius: 8px; 
+      transition: transform 0.3s; 
+    }
+    .card:hover img { 
+      transform: scale(1.05); 
+    }
+    .value { font-weight: bold; }
+    .rarity { font-weight: bold; transition: color 0.3s, text-shadow 0.3s; }
+    .demand { font-weight: bold; transition: color 0.3s; }
   </style>
 </head>
 <body>
@@ -16,7 +50,6 @@
   <div id="swords"></div>
 
   <script>
-    // Test verileri
     const swords = [
       {name: "Cupid's Arrow", image: "https://i.postimg.cc/4NCRTxFM/cupidarrow.png", rarity: "Godly", value: 150, demand: "Magnificent"},
       {name: "SoC", image: "https://i.postimg.cc/4NRqSFYR/sinofchrist.png", rarity: "Godly", value: 115, demand: "Magnificent"},
@@ -27,12 +60,11 @@
       {name: "Soul Reaper", image: "https://i.postimg.cc/rw8b80Gh/soulreaper.png", rarity: "Exclusive", value: 19, demand: "Good"},
       {name: "Diadem", image: "https://i.postimg.cc/qv4fzZrx/diadem.png", rarity: "Exclusive", value: 12, demand: "Good"},
       {name: "Angel", image: "https://i.postimg.cc/4NtZK99s/angel.png", rarity: "Exclusive", value: 7, demand: "Good"},
-      {name: "Devil", image: "https://i.postimg.cc/Fsj5FXMK/devil.png", rarity: "Exclusive", value: 7, demand: "Really Good"},
+      {name: "Devil", image: "https://i.postimg.cc/Fsj5FXMK/devil.png", rarity: "Exclusive", value: 7, demand: "Great"}, 
       {name: "Fire", image: "", rarity: "Exclusive", value: 4, demand: "Decent"},
       {name: "Water", image: "", rarity: "Exclusive", value: 4, demand: "Decent"},
       {name: "hoodbanks", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-216AE3E6913726818835245E29127958-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: -999999, demand: "Can drain ur bank account"},
       {name: "Nayt", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3E0460C3E925E0CD3DFF2EEAEFBA8D73-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: 96, demand: "%4 gay"},
-      
     ];
 
     const container = document.getElementById("swords");
@@ -47,8 +79,16 @@
         case "Legendary": rarityColor = "orange"; break;
         case "Epic": rarityColor = "purple"; break;
         case "Rare": rarityColor = "blue"; break;
+      }
 
-          
+      // Demand renkleri
+      let demandColor = "white";
+      switch(s.demand.toLowerCase()) {
+        case "magnificent": demandColor = "purple"; break;
+        case "great": demandColor = "cyan"; break;
+        case "good": demandColor = "green"; break;
+        case "decent": demandColor = "yellow"; break;
+        case "meh": demandColor = "red"; break;
       }
 
       container.innerHTML += `
@@ -57,7 +97,7 @@
           <h3>${s.name}</h3>
           <p class="rarity" style="color: ${rarityColor}">${s.rarity}</p>
           <p class="value">Value: ${s.value}</p>
-          <p>Demand: ${s.demand}</p>
+          <p class="demand" style="color: ${demandColor}">Demand: ${s.demand}</p>
         </div>
       `;
     });
