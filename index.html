@@ -236,6 +236,7 @@
         case "Exclusive": rarityColor = "pink"; break;
         case "Collectible": rarityColor = "cyan"; break;
         case "Legendary": rarityColor = "orange"; break;
+        case "Scammer": rarityColor = "white"; break;
       }
       let demandColor = "white";
       switch(s.demand.toLowerCase()) {
@@ -245,6 +246,7 @@
         case "normal": demandColor = "white"; break;
         case "meh": demandColor = "red"; break;
         case "null": demandColor = "gray"; break;
+        case "Can drain your bank accoun": demandColor = "white"; break;
       }
 
       let cardHTML = `
