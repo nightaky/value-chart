@@ -1,101 +1,167 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Custom Duels Sword Values (Most Recent)</title>
   <style>
-    .subtitle {
-  margin-top: 5px;
-  color: white;
-  font-weight: normal;
-  font-size: 16px;
-  text-align: center;
-  font-style: italic;
-     }
+    /* Genel Arkaplan ve Yazı Ayarları */
     body { 
-      background: #1e1e1e url("https://github.com/nightaky/value-chart/blob/main/Background2.png?raw=true") no-repeat center center fixed; 
-      background-size: cover;
-      color: white; 
-      font-family: Arial; 
+      background-color: #0a0a0a; /* Premium derin siyah */
+      color: #eaeaea; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Daha modern bir font */
       display: flex; 
       flex-direction: column; 
       align-items: center; 
       max-width: 90%;
       margin: auto;
     }
-    h1 { margin-top: 20px; }
+    
+    h1 { 
+      margin-top: 30px; 
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .subtitle {
+      margin-top: 5px;
+      color: #aaaaaa;
+      font-weight: normal;
+      font-size: 16px;
+      text-align: center;
+      font-style: italic;
+    }
 
     .rarity-section {
       width: 100%;
-      margin: 20px 0;
+      margin: 30px 0;
     }
+    
     .rarity-title {
       font-size: 24px;
       margin: 10px;
       text-align: center;
-      border-bottom: 2px solid #555;
-      padding-bottom: 5px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
+
     .cards {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 15px; /* Kartlar arası boşluk */
+      padding: 10px;
     }
+
+    /* KART TASARIMI (Gönderdiğin resimdeki stil) */
     .card { 
-      background: #2c2c2c; 
-      padding: 20px; 
-      margin: 10px; 
+      /* Koyu siyahtan hafif açık siyaha gradient */
+      background: linear-gradient(160deg, #1c1c1c 0%, #050505 100%); 
+      border: 2px solid white; /* JS kısmında rarity'e göre değişecek */
       border-radius: 12px; 
-      width: 200px; 
-      display: inline-block; 
-      transition: transform 0.3s, box-shadow 0.3s; 
+      width: 150px; /* Resimdeki gibi daha dikey bir form */
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px; 
+      transition: transform 0.2s ease, box-shadow 0.2s ease; 
+      position: relative;
+      overflow: hidden;
     }
+
     .card:hover { 
-      transform: translateY(-10px); 
-      box-shadow: 0 15px 25px rgba(0,0,0,0.5); 
+      transform: translateY(-8px); 
+      /* Hover durumunda çerçevenin parlaması için box-shadow (JS içinde ayarlanıyor) */
     }
-    img { 
+
+    .card h3 {
+      font-size: 14px;
+      margin: 0 0 10px 0;
+      text-align: center;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card img { 
       max-width: 100%; 
-      border-radius: 8px; 
+      max-height: 90px; 
+      object-fit: contain;
+      margin: auto 0; /* Resmi ortalar */
       transition: transform 0.3s; 
+      filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.15));
     }
+    
     .card:hover img { 
-      transform: scale(1.05); 
+      transform: scale(1.1) rotate(2deg); 
     }
+
+    /* Kart İçi Bilgiler */
+    .card-info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: auto; /* Yazıları en alta iter */
+      font-size: 12px;
+    }
+
     .value { font-weight: bold; }
-    .rarity { font-weight: bold; transition: color 0.3s, text-shadow 0.3s; }
-    .demand { font-weight: bold; transition: color 0.3s; }
-    .copies { font-size: 14px; color: #ccc; margin-top: 5px; }
+    .rarity { font-weight: bold; font-size: 11px; text-transform: uppercase;}
+    .demand { font-weight: bold; }
+    .copies { 
+      font-size: 11px; 
+      color: #888; 
+      text-align: right; /* Resimdeki seri numaraları gibi sağ alta yasladık */
+      margin-top: 5px;
+    }
 
     /* Sol alt köşe buton */
     #infoBtn {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: #444;
+      background: #222;
+      border: 1px solid #444;
       color: white;
-      padding: 15px 30px;
+      padding: 12px 25px;
       border-radius: 8px;
       cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
     }
+    
+    #infoBtn:hover {
+      background: #444;
+    }
+
     #infoPanel {
       display: none;
       position: fixed;
       bottom: 70px;
       left: 20px;
-      background: #222;
+      background: #111;
+      border: 1px solid #333;
       padding: 20px;
       border-radius: 12px;
-      width: 400px; /* daha geniş yaptım */
+      width: 400px;
       max-height: 500px;
       overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 100;
     }
+
     #infoPanel h2 {
       margin-top: 0;
-      border-bottom: 1px solid #555;
-      padding-bottom: 5px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 8px;
+      font-size: 18px;
     }
+
     /* Fotoğraflar yan yana */
     .photo-row {
       display: flex;
@@ -103,32 +169,23 @@
       gap: 20px;
       margin: 15px 0;
     }
-    .photo-card {
-      text-align: center;
-      flex: 1;
-    }
-    .photo-card img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin-bottom: 8px;
-    }
-    .photo-card p {
-      margin: 0;
-      font-size: 14px;
-    }
-    .role {
-      font-size: 12px;
-      color: #aaa;
-    }
-    #infoPanel ul li {
-      margin-bottom: 10px; /* veya istediğin kadar boşluk */
-    }
+    .photo-card { text-align: center; flex: 1; }
+    .photo-card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 8px; border: 2px solid #555; }
+    .photo-card p { margin: 0; font-size: 14px; font-weight: bold;}
+    .role { font-size: 12px; color: #aaa; font-weight: normal; }
+    #infoPanel ul { padding-left: 20px; font-size: 13px; color: #ccc;}
+    #infoPanel ul li { margin-bottom: 10px; }
+    
+    /* Scrollbar Tasarımı (Premium his için) */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
   </style>
 </head>
 <body>
-  <h1>Custom Duels Sword Values (Most Recent)</h1>
-  <h3 class="subtitle">(CHECK THE INFO TAB)</h3>
+  <h1>Custom Duels Sword Values</h1>
+  <h3 class="subtitle">(Most Recent - CHECK THE INFO TAB)</h3>
   
   <div id="swords"></div>
 
@@ -136,13 +193,15 @@
   <button id="infoBtn">Info</button>
   <div id="infoPanel">
     <h2>Credits</h2>
-    <p>Most Recent Value List By:</p>
-    <p>-Nayt (0ldCSGOpro) - @njghtak<br>
-      -Roy (ROYMELECH) - @sword1256s43</p>
-    </p>*Inspired by Cya7n's Value List*</p>
-    </p>*CHANGES MAY HAPPEN FREQUENTLY TO KEEP VALUES FAIR AS POSSIBLE*</p>
+    <p style="font-size: 13px; color: #ccc;">Most Recent Value List By:</p>
+    <p style="font-size: 13px; color: #ccc;">
+      -Nayt (0ldCSGOpro) - @njghtak<br>
+      -Roy (ROYMELECH) - @sword1256s43
+    </p>
+    <p style="font-size: 12px; color: #888; font-style: italic;">*Inspired by Cya7n's Value List*<br>
+    *CHANGES MAY HAPPEN FREQUENTLY TO KEEP VALUES FAIR AS POSSIBLE*</p>
 
-    <h2></h2>
+    <h2>Developers</h2>
     <div class="photo-row">
       <div class="photo-card">
         <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3E0460C3E925E0CD3DFF2EEAEFBA8D73-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Nayt">
@@ -159,17 +218,11 @@
     <h2>Important Notes</h2>
     <ul>
       <li>Legendary swords count as 1 in godly trades. Confille can be counted as 2, Boogie can be counted as 3.</li>
-      
       <li>Collectibles under Green Hot (or Oink Oink if needed) should not be accepted in godly downgrades.</li>
-      
       <li>This value list does not estimate any serial based value, however serials between 1-10 could get 2x or more of what they are worth, 10-100 could easily get overpays.</li>
-      
       <li>This value list is based on the latest trades and the latest market/player supply/demand.</li>
-
       <li>Values and demands have been discussed with expert traders.</li>
-      
       <li>If you did not like the list, feel free to dislike and let us know why.</li>
-      
       <li>DM us if you have questions or if you want a value change. (With a proper and understandable reason.)</li>
     </ul>
   </div>
@@ -216,11 +269,11 @@
       
       {name: "Eggxotic", image: "https://i.postimg.cc/SNN5DB8r/eggxotic.png", rarity: "Collectible", value: 4.5, demand: "Meh", copies: "1k"},
       {name: "Eggsplosion", image: "", rarity: "Collectible", value: 3.4, demand: "Meh", copies: "x"},
-      {name: "Seven Stars", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/sevenstar.png?raw=true", rarity: "Collectible", value: "Owner Choice (Estimatedly 80)", demand: "Good", copies: 11},
-      {name: "Green Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/greenhot.png?raw=true", rarity: "Collectible", value: "Owner Choice (Estimatedly 75)", demand: "Good", copies: 5},
-            {name: "Pink Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true", rarity: "Collectible", value: "Owner Choice (Estimatedly 72)", demand: "Good", copies: 4},
-      {name: "Blue Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true", rarity: "Collectible", value: "Owner Choice (Estimatedly 70)", demand: "Good", copies: 4},
-      {name: "Oink Oink", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/oink%20oink.png?raw=true", rarity: "Collectible", value: 18, demand: "Meh", copies: "128 (probably way less due to dismantling)"},
+      {name: "Seven Stars", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/sevenstar.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 11},
+      {name: "Green Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/greenhot.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 5},
+      {name: "Pink Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 4},
+      {name: "Blue Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 4},
+      {name: "Oink Oink", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/oink%20oink.png?raw=true", rarity: "Collectible", value: 18, demand: "Meh", copies: "128"},
       {name: "2021 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/21_spark.webp?raw=true", rarity: "Collectible", value: 6, demand: "Normal", copies: "1.1k"},
       {name: "2022 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true", rarity: "Collectible", value: 8, demand: "Null", copies: 372},
       {name: "2023 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true", rarity: "Collectible", value: 6, demand: "Null", copies: 556},
@@ -233,15 +286,15 @@
       {name: "Fireworks", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/firewroks.webp?raw=true", rarity: "Collectible", value: 1.5, demand: "Normal", copies: "3.8k"},
       {name: "Chocolatify", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/chocolatify.webp?raw=true", rarity: "Collectible", value: 1, demand: "Null", copies: "2.1k"},
       
-      {name: "hoodbanks", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-216AE3E6913726818835245E29127958-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: -999999, demand: "Can drain your bank account", copies: 0},
-      {name: "Nayt (0ldCSGOpro)", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3E0460C3E925E0CD3DFF2EEAEFBA8D73-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: "4%", demand: "Legacy scammer", copies: 0},
-      {name: "Roy (ROYMELECH)", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-E8FCDC54838C9441BB4BA836A9004A0E-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: "((8! / (7!)) * (√81)) - (2^4 + 6)", demand: "Give him all u have for his linked sword", copies: 0},
+      {name: "hoodbanks", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-216AE3E6913726818835245E29127958-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: -999999, demand: "Dangerous", copies: 0},
+      {name: "Nayt", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3E0460C3E925E0CD3DFF2EEAEFBA8D73-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: "4%", demand: "Legacy", copies: 0},
+      {name: "Roy", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-E8FCDC54838C9441BB4BA836A9004A0E-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: "Math Error", demand: "Greedy", copies: 0},
         
   ];
 
     const container = document.getElementById("swords");
 
-    // rarity grupları
+    // Rarity grupları
     const rarities = ["Godly","Exclusive","Legendary","Collectible","Scammer"];
     rarities.forEach(r => {
       let section = document.createElement("div");
@@ -251,32 +304,41 @@
     });
 
     swords.forEach(s => {
-      let rarityColor = "white"; 
+      // Çerçeve (outline) renkleri burada belirleniyor (Resimdeki renklere uygun)
+      let rarityColor = "#ffffff"; 
       switch(s.rarity) {
-        case "Godly": rarityColor = "red"; break;
-        case "Exclusive": rarityColor = "pink"; break;
-        case "Collectible": rarityColor = "cyan"; break;
-        case "Legendary": rarityColor = "orange"; break;
-        case "Scammer": rarityColor = "white"; break;
+        case "Godly": rarityColor = "#ff4d4d"; break; // Kırmızı
+        case "Exclusive": rarityColor = "#d05ce3"; break; // Mor / Pembe
+        case "Collectible": rarityColor = "#00e5ff"; break; // Camgöbeği (Cyan)
+        case "Legendary": rarityColor = "#ffb347"; break; // Turuncu
+        case "Scammer": rarityColor = "#555555"; break; // Koyu Gri
       }
-      let demandColor = "white";
+      
+      let demandColor = "#ffffff";
       switch(s.demand.toLowerCase()) {
-        case "magnificent": demandColor = "purple"; break;
-        case "great": demandColor = "cyan"; break;
-        case "good": demandColor = "green"; break;
-        case "normal": demandColor = "white"; break;
-        case "meh": demandColor = "red"; break;
-        case "null": demandColor = "gray"; break;
+        case "magnificent": demandColor = "#d05ce3"; break;
+        case "great": demandColor = "#00e5ff"; break;
+        case "good": demandColor = "#4caf50"; break;
+        case "normal": demandColor = "#cccccc"; break;
+        case "meh": demandColor = "#ff4d4d"; break;
+        case "null": demandColor = "#555555"; break;
       }
 
+      // Kartın stiline doğrudan rarityColor değişkenini border-color ve box-shadow olarak atıyoruz
       let cardHTML = `
-        <div class="card">
-          <img src="${s.image}" alt="${s.name}">
+        <div class="card" style="border-color: ${rarityColor}; box-shadow: 0 0 10px ${rarityColor}33;" 
+             onmouseover="this.style.boxShadow='0 0 20px ${rarityColor}80'" 
+             onmouseout="this.style.boxShadow='0 0 10px ${rarityColor}33'">
           <h3>${s.name}</h3>
-          <p class="rarity" style="color: ${rarityColor}">${s.rarity}</p>
-          <p class="value">Value: ${s.value}</p>
-          <p class="demand" style="color: ${demandColor}">Demand: ${s.demand}</p>
-          <p class="copies">Amount of copies: ${s.copies}</p>
+          <img src="${s.image}" alt="${s.name}" onerror="this.style.display='none'">
+          <div class="card-info">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+               <span class="rarity" style="color: ${rarityColor}">${s.rarity}</span>
+               <span class="copies">#${s.copies}</span>
+            </div>
+            <p class="value">Val: ${s.value}</p>
+            <p class="demand" style="color: ${demandColor}">Dmd: ${s.demand}</p>
+          </div>
         </div>
       `;
       let section = document.getElementById("cards-" + s.rarity);
