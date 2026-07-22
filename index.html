@@ -3,30 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <title>Custom Duels Sword Values (Most Recent)</title>
+  <!-- Modern Font Eklenmesi -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
   <style>
     /* Genel Arkaplan ve Yazı Ayarları */
     body { 
       background-color: #0a0a0a; 
       color: #eaeaea; 
-      font-family: Arial, sans-serif; 
+      font-family: 'Inter', sans-serif; /* Daha modern ve premium font */
       display: flex; 
       flex-direction: column; 
       align-items: center; 
       max-width: 90%;
       margin: auto;
-      overflow-x: hidden; /* Yan kaymaları engellemek için */
+      overflow-x: hidden; 
     }
     
     h1 { 
       margin-top: 30px; 
       letter-spacing: 1px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
       margin-bottom: 5px;
+      font-weight: 800;
     }
 
     .subtitle {
       color: #aaaaaa;
-      font-weight: normal;
+      font-weight: 400;
       font-size: 14px;
       text-align: center;
       font-style: italic;
@@ -38,11 +44,11 @@
     .tabs-container {
       display: flex;
       gap: 10px;
-      background: #141414;
+      background: #111111;
       padding: 8px;
       border-radius: 30px;
-      border: 1px solid #2a2a2a;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      border: 1px solid #222;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.8);
       margin-bottom: 20px;
       flex-wrap: wrap;
       justify-content: center;
@@ -50,26 +56,26 @@
 
     .tab-btn {
       background: transparent;
-      color: #888;
+      color: #777;
       border: none;
       padding: 10px 20px;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
       border-radius: 20px;
       transition: all 0.3s ease;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     .tab-btn:hover {
       color: #fff;
-      background: #222;
+      background: #1a1a1a;
     }
 
     .tab-btn.active {
-      background: #333;
+      background: #2a2a2a;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     /* İÇERİK ALANI VE ANİMASYONLAR */
@@ -80,7 +86,7 @@
     }
 
     .rarity-section {
-      display: none; /* Varsayılan olarak hepsi gizli */
+      display: none; 
       width: 100%;
       animation-duration: 0.35s;
       animation-fill-mode: forwards;
@@ -88,10 +94,9 @@
     }
 
     .rarity-section.active {
-      display: block; /* Sadece aktif olan görünür */
+      display: block; 
     }
 
-    /* Sağdan ve Soldan Kayma Animasyonları */
     @keyframes slideInFromRight {
       from { transform: translateX(40px); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
@@ -109,18 +114,18 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px; /* Kartlar arası boşluk biraz azaltıldı */
+      gap: 12px; 
       padding: 10px;
     }
 
-    /* KART TASARIMI - KÜÇÜLTÜLDÜ VE RENGİ AÇILDI */
+    /* KART TASARIMI - Arkaplan Karartıldı, Boyutlar Ayarlandı */
     .card { 
-      /* Gradient çok hafif daha açık bir tona çekildi */
-      background: linear-gradient(160deg, #2a2a2a 0%, #111111 100%); 
+      /* Daha koyu bir arkaplan geçişi */
+      background: linear-gradient(160deg, #161616 0%, #060606 100%); 
       border: 2px solid white; 
       border-radius: 8px; 
-      width: 135px; /* Kartlar daha dar */
-      height: 205px; /* Kartlar daha kısa */
+      width: 140px; 
+      height: 235px; /* Fotoğraflar büyüdüğü için kart boyutu hafif uzatıldı */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -134,39 +139,43 @@
       transform: translateY(-5px); 
     }
 
+    /* Yazılara text-shadow eklendi */
     .card h3 {
-      font-size: 12px; /* Yazı boyutu küçüldü */
+      font-size: 13px; 
+      font-weight: 600;
       margin: 0 0 8px 0;
       text-align: center;
       width: 100%;
       line-height: 1.2;
-      min-height: 28px; 
+      min-height: 30px; 
       display: flex;
       align-items: center;
       justify-content: center;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.9); /* Yazı gölgesi */
     }
 
+    /* Görseller Büyütüldü */
     .card img { 
       max-width: 100%; 
-      height: 65px; /* Fotoğraflar daha küçük (Orantılı) */
+      height: 95px; /* Eski değer 65px idi, oldukça büyütüldü */
       object-fit: contain;
       margin: 0 0 12px 0; 
       transition: transform 0.3s; 
-      filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.1));
+      filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.15));
     }
     
     .card:hover img { 
       transform: scale(1.1) rotate(2deg); 
     }
 
-    /* Kart İçi Bilgiler */
     .card-info {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 5px; /* Satırlar birbirine yaklaştı */
+      gap: 5px; 
       margin-top: auto; 
-      font-size: 11px; /* Fontlar küçüldü */
+      font-size: 11px; 
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8); /* Yazı gölgesi */
     }
 
     .rarity-row {
@@ -178,35 +187,36 @@
 
     .value, .demand { 
       margin: 0;
-      font-weight: bold; 
+      font-weight: 600; 
       font-size: 12px;
     }
 
     .label {
-      color: #b3b3b3; 
+      color: #999999; 
     }
 
-    .rarity { font-weight: bold; font-size: 10px; text-transform: uppercase;}
-    .copies { font-size: 10px; color: #888; }
+    .rarity { font-weight: 800; font-size: 10px; text-transform: uppercase;}
+    .copies { font-size: 10px; color: #777; }
 
     /* Butonlar ve Paneller */
     #infoBtn {
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: #222;
-      border: 1px solid #444;
+      background: #1a1a1a;
+      border: 1px solid #333;
       color: white;
       padding: 12px 25px;
       border-radius: 8px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
       transition: background 0.3s;
       z-index: 99;
     }
     
     #infoBtn:hover {
-      background: #444;
+      background: #333;
     }
 
     #infoPanel {
@@ -215,19 +225,19 @@
       bottom: 70px;
       left: 20px;
       background: #111;
-      border: 1px solid #333;
+      border: 1px solid #222;
       padding: 20px;
       border-radius: 12px;
       width: 400px;
       max-height: 500px;
       overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
       z-index: 100;
     }
 
     #infoPanel h2 {
       margin-top: 0;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #222;
       padding-bottom: 8px;
       font-size: 18px;
     }
@@ -239,10 +249,10 @@
       margin: 15px 0;
     }
     .photo-card { text-align: center; flex: 1; }
-    .photo-card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 8px; border: 2px solid #555; }
-    .photo-card p { margin: 0; font-size: 14px; font-weight: bold;}
-    .role { font-size: 12px; color: #aaa; font-weight: normal; }
-    #infoPanel ul { padding-left: 20px; font-size: 13px; color: #ccc;}
+    .photo-card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 8px; border: 2px solid #444; }
+    .photo-card p { margin: 0; font-size: 14px; font-weight: 600;}
+    .role { font-size: 12px; color: #aaa; font-weight: 400; }
+    #infoPanel ul { padding-left: 20px; font-size: 13px; color: #bbb;}
     #infoPanel ul li { margin-bottom: 10px; }
     
     ::-webkit-scrollbar { width: 8px; }
@@ -299,78 +309,464 @@
   </div>
 
   <script>
-    const swords = [
-      {name: "Cupid's Arrow", image: "https://i.postimg.cc/4NCRTxFM/cupidarrow.png", rarity: "Godly", value: "240+", demand: "Great", copies: 89},
-      {name: "Sin of Christ", image: "https://i.postimg.cc/4NRqSFYR/sinofchrist.png", rarity: "Godly", value: 150, demand: "Magnificent", copies: 251},
-      {name: "Nature's Embrace", image: "https://i.postimg.cc/6qnSQC1P/nature.png", rarity: "Godly", value: 83, demand: "Great", copies: 166},
-      {name: "Behemoth", image: "https://i.postimg.cc/BvZGw7wn/behemoth.png", rarity: "Godly", value: 90, demand: "Good", copies: 265},
-      {name: "Stardust", image: "https://i.postimg.cc/0NjBwTBD/stardust.png", rarity: "Godly", value: 60, demand: "Great", copies: 273},
-      {name: "Empyrean", image: "https://i.postimg.cc/0yfTmd2R/empyrean.png", rarity: "Godly", value: 31, demand: "Good", copies: 446},
-      
-      {name: "Soul Reaper", image: "https://i.postimg.cc/rw8b80Gh/soulreaper.png", rarity: "Exclusive", value: 25, demand: "Magnificent", copies: 643},
-      {name: "Diadem", image: "https://i.postimg.cc/qv4fzZrx/diadem.png", rarity: "Exclusive", value: 14, demand: "Normal", copies: "1.4k"},
-      {name: "Angel", image: "https://i.postimg.cc/4NtZK99s/angel.png", rarity: "Exclusive", value: 11, demand: "Good", copies: 791},
-      {name: "Devil", image: "https://i.postimg.cc/Fsj5FXMK/devil.png", rarity: "Exclusive", value: 11, demand: "Great", copies: 780}, 
-      {name: "Fire", image: "https://github.com/nightaky/value-chart/blob/main/Screenshot_2025-09-22_210912.png?raw=true", rarity: "Exclusive", value: 7, demand: "Normal", copies: 441},
-      {name: "Water", image: "https://github.com/nightaky/value-chart/blob/main/Screenshot_2025-09-22_210431.png?raw=true", rarity: "Exclusive", value: 7, demand: "Normal", copies: 539},
-      {name: "Matrix", image: "https://cdn.discordapp.com/attachments/1449785799758581770/1450141878820405452/image.png?ex=6941755e&is=694023de&hm=7ad1395ae8477b159c9861e8a034a424b09dc0865bd1c6db1a93dd0422f54127", rarity: "Exclusive", value: "5.5", demand: "Normal", copies: 475},
-      {name: "Cybercrush", image: "https://cdn.discordapp.com/attachments/1449785799758581770/1450141384144195805/image.png?ex=694174e8&is=69402368&hm=244c2a4813b8921fe03a8a17ca28f077ffe24bbcfc4d91190c1f82eefc772838", rarity: "Exclusive", value: "5.5", demand: "Normal", copies: 651},
-      {name: "Timebomb", image: "", rarity: "Exclusive", value: 4, demand: "Normal", copies: 250},
-      
-      {name: "Boogie Bomb", image: "https://i.postimg.cc/vBkFTY84/boogiebomb.png", rarity: "Legendary", value: 4, demand: "Good", copies: "1.7k"},
-      {name: "Confille", image: "https://i.postimg.cc/NG2vVHbm/confille.png", rarity: "Legendary", value: 2, demand: "Normal", copies: "2k"},
-      {name: "Heartbeat", image: "", rarity: "Legendary", value: "2", demand: "Normal", copies: "x"},
-      {name: "Bloodthorn", image: "https://i.postimg.cc/Vvtybx5D/bloodthorn.png", rarity: "Legendary", value: 2, demand: "Good", copies: "4.7k"},
-      {name: "Harbinger", image: "https://i.postimg.cc/GpmZj8HB/harbinger.png", rarity: "Legendary", value: 2, demand: "Good", copies: "6.95k"},
-      {name: "Bladeless Swordsman", image: "https://i.postimg.cc/63yxB2Ks/bladeless.png", rarity: "Legendary", value: 2, demand: "Good", copies: "6.8k"},
-      {name: "Aura", image: "https://i.postimg.cc/rwNkj2jH/aura.png", rarity: "Legendary", value: 2, demand: "Good", copies: "2.2k"},
-      {name: "Undead's Vengeance", image: "https://i.postimg.cc/DwBNmvB7/zomb.png", rarity: "Legendary", value: 1.5, demand: "Normal", copies: "5.3k"},
-      {name: "Rose Thunderbolt", image: "https://i.postimg.cc/ZYdXjhKL/rose.png", rarity: "Legendary", value: 1.5, demand: "Good", copies: "3.9k"},
-      {name: "Golden Sleigh", image: "https://i.postimg.cc/GmHFJbbL/goldensleigh.png", rarity: "Legendary", value: 1.4, demand: "Normal", copies: "4.8k"},
-      {name: "Voidswirl", image: "https://i.postimg.cc/JzvbpShb/voidswirl.png", rarity: "Legendary", value: 1.4, demand: "Normal", copies: "3.6k"},
-      {name: "Skeleton Dance", image: "https://i.postimg.cc/hP86Wbmz/skeletondance.png", rarity: "Legendary", value: 1.3, demand: "Meh", copies:"6.8k"},
-      {name: "Blackhole", image: "https://i.postimg.cc/5tPMc5Zq/blackhole.png", rarity: "Legendary", value: 1.2, demand: "Normal", copies: "3.6k"},
-      {name: "Low Tide", image: "https://i.postimg.cc/HxfRH635/lowtide.png", rarity: "Legendary", value: 1, demand: "Normal", copies: "2.6k"},
-      {name: "Sunblade", image: "https://i.postimg.cc/Hx4Xsx92/sunblade.png", rarity: "Legendary", value: 1, demand: "Normal", copies: "2.6k"},
-      {name: "Meteor", image: "https://i.postimg.cc/sxjSBrnR/meteor.png", rarity: "Legendary", value: 1, demand: "Meh", copies: "3.6k"},
-      {name: "Baphomet", image: "https://i.postimg.cc/1Rbs5H4v/baphomet.png", rarity: "Legendary", value: 1, demand: "Normal", copies: "4.6k"},
-      {name: "Thunderbolt", image: "https://i.postimg.cc/jj1kQMp9/thunderbolt.png", rarity: "Legendary", value: 1, demand: "Meh", copies: "8.7k"},
-      {name: "Icicle", image: "https://i.postimg.cc/vB1kpJ7b/icicle.png", rarity: "Legendary", value: 1, demand: "Meh", copies: "6.9k"},
-      {name: "Hearth", image: "https://i.postimg.cc/wB4n4qmw/hearth.png", rarity: "Legendary", value: 1, demand: "Meh", copies: "13.4k"},
-      
-      {name: "Eggxotic", image: "https://i.postimg.cc/SNN5DB8r/eggxotic.png", rarity: "Collectible", value: 4.5, demand: "Meh", copies: "1k"},
-      {name: "Eggsplosion", image: "", rarity: "Collectible", value: 3.4, demand: "Meh", copies: "x"},
-      {name: "Seven Stars", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/sevenstar.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 11},
-      {name: "Green Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/greenhot.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 5},
-      {name: "Pink Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 4},
-      {name: "Blue Hot", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true", rarity: "Collectible", value: "TBD", demand: "Good", copies: 4},
-      {name: "Oink Oink", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/oink%20oink.png?raw=true", rarity: "Collectible", value: 18, demand: "Meh", copies: "128"},
-      {name: "2021 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/21_spark.webp?raw=true", rarity: "Collectible", value: 6, demand: "Normal", copies: "1.1k"},
-      {name: "2022 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true", rarity: "Collectible", value: 8, demand: "Null", copies: 372},
-      {name: "2023 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true", rarity: "Collectible", value: 6, demand: "Null", copies: 556},
-      {name: "2024 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true", rarity: "Collectible", value: 3, demand: "Normal", copies: "3.1k"},
-      {name: "2025 Sparkler", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true", rarity: "Collectible", value: 1, demand: "Meh", copies: "1.1k"},
-      {name: "7Souls", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/7souls.png?raw=true", rarity: "Collectible", value: 2, demand: "Good", copies: "2.6k"},
-      {name: "Nightmare's Edge", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/nightmares.webp?raw=true", rarity: "Collectible", value: 2, demand: "Normal", copies: "7.2k"},
-      {name: "Easter Bunny", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/easter_bunny.webp?raw=true", rarity: "Collectible", value: 2, demand: "Null", copies: "2.4k"},
-      {name: "Heartsong", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/heartsong.png?raw=true", rarity: "Collectible", value: 1.5, demand: "Normal", copies: "5.5k"},
-      {name: "Fireworks", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/firewroks.webp?raw=true", rarity: "Collectible", value: 1.5, demand: "Normal", copies: "3.8k"},
-      {name: "Chocolatify", image: "https://github.com/nightaky/value-chart/blob/main/swordpng/chocolatify.webp?raw=true", rarity: "Collectible", value: 1, demand: "Null", copies: "2.1k"},
-      
-      {name: "hoodbanks", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-216AE3E6913726818835245E29127958-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: -999999, demand: "Dangerous", copies: 0},
-      {name: "Nayt", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3E0460C3E925E0CD3DFF2EEAEFBA8D73-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: "4%", demand: "Legacy", copies: 0},
-      {name: "Roy", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-E8FCDC54838C9441BB4BA836A9004A0E-Png/150/150/AvatarHeadshot/Webp/noFilter", rarity: "Scammer", value: "Math Error", demand: "Greedy", copies: 0},
-        
-  ];
+    // --- KILIÇ VERİLERİ (ALT ALTA YENİDEN DÜZENLENDİ) ---
+    let swords = [
+
+      // ================= GODLY =================
+      {
+        name: "Cupid's Arrow",
+        image: "https://i.postimg.cc/4NCRTxFM/cupidarrow.png",
+        rarity: "Godly",
+        value: "240+",
+        demand: "Great",
+        copies: 89
+      },
+      {
+        name: "Sin of Christ",
+        image: "https://i.postimg.cc/4NRqSFYR/sinofchrist.png",
+        rarity: "Godly",
+        value: 150,
+        demand: "Magnificent",
+        copies: 251
+      },
+      {
+        name: "Behemoth",
+        image: "https://i.postimg.cc/BvZGw7wn/behemoth.png",
+        rarity: "Godly",
+        value: 90,
+        demand: "Good",
+        copies: 265
+      },
+      {
+        name: "Nature's Embrace",
+        image: "https://i.postimg.cc/6qnSQC1P/nature.png",
+        rarity: "Godly",
+        value: 83,
+        demand: "Great",
+        copies: 166
+      },
+      {
+        name: "Stardust",
+        image: "https://i.postimg.cc/0NjBwTBD/stardust.png",
+        rarity: "Godly",
+        value: 60,
+        demand: "Great",
+        copies: 273
+      },
+      {
+        name: "Empyrean",
+        image: "https://i.postimg.cc/0yfTmd2R/empyrean.png",
+        rarity: "Godly",
+        value: 31,
+        demand: "Good",
+        copies: 446
+      },
+
+      // ================= EXCLUSIVE =================
+      {
+        name: "Soul Reaper",
+        image: "https://i.postimg.cc/rw8b80Gh/soulreaper.png",
+        rarity: "Exclusive",
+        value: 25,
+        demand: "Magnificent",
+        copies: 643
+      },
+      {
+        name: "Diadem",
+        image: "https://i.postimg.cc/qv4fzZrx/diadem.png",
+        rarity: "Exclusive",
+        value: 14,
+        demand: "Normal",
+        copies: "1.4k"
+      },
+      {
+        name: "Angel",
+        image: "https://i.postimg.cc/4NtZK99s/angel.png",
+        rarity: "Exclusive",
+        value: 11,
+        demand: "Good",
+        copies: 791
+      },
+      {
+        name: "Devil",
+        image: "https://i.postimg.cc/Fsj5FXMK/devil.png",
+        rarity: "Exclusive",
+        value: 11,
+        demand: "Great",
+        copies: 780
+      },
+      {
+        name: "Fire",
+        image: "https://github.com/nightaky/value-chart/blob/main/Screenshot_2025-09-22_210912.png?raw=true",
+        rarity: "Exclusive",
+        value: 7,
+        demand: "Normal",
+        copies: 441
+      },
+      {
+        name: "Water",
+        image: "https://github.com/nightaky/value-chart/blob/main/Screenshot_2025-09-22_210431.png?raw=true",
+        rarity: "Exclusive",
+        value: 7,
+        demand: "Normal",
+        copies: 539
+      },
+      {
+        name: "Matrix",
+        image: "https://cdn.discordapp.com/attachments/1449785799758581770/1450141878820405452/image.png?ex=6941755e&is=694023de&hm=7ad1395ae8477b159c9861e8a034a424b09dc0865bd1c6db1a93dd0422f54127",
+        rarity: "Exclusive",
+        value: "5.5",
+        demand: "Normal",
+        copies: 475
+      },
+      {
+        name: "Cybercrush",
+        image: "https://cdn.discordapp.com/attachments/1449785799758581770/1450141384144195805/image.png?ex=694174e8&is=69402368&hm=244c2a4813b8921fe03a8a17ca28f077ffe24bbcfc4d91190c1f82eefc772838",
+        rarity: "Exclusive",
+        value: "5.5",
+        demand: "Normal",
+        copies: 651
+      },
+      {
+        name: "Timebomb",
+        image: "",
+        rarity: "Exclusive",
+        value: 4,
+        demand: "Normal",
+        copies: 250
+      },
+
+      // ================= LEGENDARY =================
+      {
+        name: "Boogie Bomb",
+        image: "https://i.postimg.cc/vBkFTY84/boogiebomb.png",
+        rarity: "Legendary",
+        value: 4,
+        demand: "Good",
+        copies: "1.7k"
+      },
+      {
+        name: "Confille",
+        image: "https://i.postimg.cc/NG2vVHbm/confille.png",
+        rarity: "Legendary",
+        value: 2,
+        demand: "Normal",
+        copies: "2k"
+      },
+      {
+        name: "Heartbeat",
+        image: "",
+        rarity: "Legendary",
+        value: "2",
+        demand: "Normal",
+        copies: "x"
+      },
+      {
+        name: "Bloodthorn",
+        image: "https://i.postimg.cc/Vvtybx5D/bloodthorn.png",
+        rarity: "Legendary",
+        value: 2,
+        demand: "Good",
+        copies: "4.7k"
+      },
+      {
+        name: "Harbinger",
+        image: "https://i.postimg.cc/GpmZj8HB/harbinger.png",
+        rarity: "Legendary",
+        value: 2,
+        demand: "Good",
+        copies: "6.95k"
+      },
+      {
+        name: "Bladeless Swordsman",
+        image: "https://i.postimg.cc/63yxB2Ks/bladeless.png",
+        rarity: "Legendary",
+        value: 2,
+        demand: "Good",
+        copies: "6.8k"
+      },
+      {
+        name: "Aura",
+        image: "https://i.postimg.cc/rwNkj2jH/aura.png",
+        rarity: "Legendary",
+        value: 2,
+        demand: "Good",
+        copies: "2.2k"
+      },
+      {
+        name: "Undead's Vengeance",
+        image: "https://i.postimg.cc/DwBNmvB7/zomb.png",
+        rarity: "Legendary",
+        value: 1.5,
+        demand: "Normal",
+        copies: "5.3k"
+      },
+      {
+        name: "Rose Thunderbolt",
+        image: "https://i.postimg.cc/ZYdXjhKL/rose.png",
+        rarity: "Legendary",
+        value: 1.5,
+        demand: "Good",
+        copies: "3.9k"
+      },
+      {
+        name: "Golden Sleigh",
+        image: "https://i.postimg.cc/GmHFJbbL/goldensleigh.png",
+        rarity: "Legendary",
+        value: 1.4,
+        demand: "Normal",
+        copies: "4.8k"
+      },
+      {
+        name: "Voidswirl",
+        image: "https://i.postimg.cc/JzvbpShb/voidswirl.png",
+        rarity: "Legendary",
+        value: 1.4,
+        demand: "Normal",
+        copies: "3.6k"
+      },
+      {
+        name: "Skeleton Dance",
+        image: "https://i.postimg.cc/hP86Wbmz/skeletondance.png",
+        rarity: "Legendary",
+        value: 1.3,
+        demand: "Meh",
+        copies: "6.8k"
+      },
+      {
+        name: "Blackhole",
+        image: "https://i.postimg.cc/5tPMc5Zq/blackhole.png",
+        rarity: "Legendary",
+        value: 1.2,
+        demand: "Normal",
+        copies: "3.6k"
+      },
+      {
+        name: "Low Tide",
+        image: "https://i.postimg.cc/HxfRH635/lowtide.png",
+        rarity: "Legendary",
+        value: 1,
+        demand: "Normal",
+        copies: "2.6k"
+      },
+      {
+        name: "Sunblade",
+        image: "https://i.postimg.cc/Hx4Xsx92/sunblade.png",
+        rarity: "Legendary",
+        value: 1,
+        demand: "Normal",
+        copies: "2.6k"
+      },
+      {
+        name: "Meteor",
+        image: "https://i.postimg.cc/sxjSBrnR/meteor.png",
+        rarity: "Legendary",
+        value: 1,
+        demand: "Meh",
+        copies: "3.6k"
+      },
+      {
+        name: "Baphomet",
+        image: "https://i.postimg.cc/1Rbs5H4v/baphomet.png",
+        rarity: "Legendary",
+        value: 1,
+        demand: "Normal",
+        copies: "4.6k"
+      },
+      {
+        name: "Thunderbolt",
+        image: "https://i.postimg.cc/jj1kQMp9/thunderbolt.png",
+        rarity: "Legendary",
+        value: 1,
+        demand: "Meh",
+        copies: "8.7k"
+      },
+      {
+        name: "Icicle",
+        image: "https://i.postimg.cc/vB1kpJ7b/icicle.png",
+        rarity: "Legendary",
+        value: 1,
+        demand: "Meh",
+        copies: "6.9k"
+      },
+      {
+        name: "Hearth",
+        image: "https://i.postimg.cc/wB4n4qmw/hearth.png",
+        rarity: "Legendary",
+        value: 1,
+        demand: "Meh",
+        copies: "13.4k"
+      },
+
+      // ================= COLLECTIBLE =================
+      {
+        name: "Oink Oink",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/oink%20oink.png?raw=true",
+        rarity: "Collectible",
+        value: 18,
+        demand: "Meh",
+        copies: "128"
+      },
+      {
+        name: "2022 Sparkler",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true",
+        rarity: "Collectible",
+        value: 8,
+        demand: "Null",
+        copies: 372
+      },
+      {
+        name: "2021 Sparkler",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/21_spark.webp?raw=true",
+        rarity: "Collectible",
+        value: 6,
+        demand: "Normal",
+        copies: "1.1k"
+      },
+      {
+        name: "2023 Sparkler",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true",
+        rarity: "Collectible",
+        value: 6,
+        demand: "Null",
+        copies: 556
+      },
+      {
+        name: "Eggxotic",
+        image: "https://i.postimg.cc/SNN5DB8r/eggxotic.png",
+        rarity: "Collectible",
+        value: 4.5,
+        demand: "Meh",
+        copies: "1k"
+      },
+      {
+        name: "Eggsplosion",
+        image: "",
+        rarity: "Collectible",
+        value: 3.4,
+        demand: "Meh",
+        copies: "x"
+      },
+      {
+        name: "2024 Sparkler",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true",
+        rarity: "Collectible",
+        value: 3,
+        demand: "Normal",
+        copies: "3.1k"
+      },
+      {
+        name: "7Souls",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/7souls.png?raw=true",
+        rarity: "Collectible",
+        value: 2,
+        demand: "Good",
+        copies: "2.6k"
+      },
+      {
+        name: "Nightmare's Edge",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/nightmares.webp?raw=true",
+        rarity: "Collectible",
+        value: 2,
+        demand: "Normal",
+        copies: "7.2k"
+      },
+      {
+        name: "Easter Bunny",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/easter_bunny.webp?raw=true",
+        rarity: "Collectible",
+        value: 2,
+        demand: "Null",
+        copies: "2.4k"
+      },
+      {
+        name: "Heartsong",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/heartsong.png?raw=true",
+        rarity: "Collectible",
+        value: 1.5,
+        demand: "Normal",
+        copies: "5.5k"
+      },
+      {
+        name: "Fireworks",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/firewroks.webp?raw=true",
+        rarity: "Collectible",
+        value: 1.5,
+        demand: "Normal",
+        copies: "3.8k"
+      },
+      {
+        name: "Chocolatify",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/chocolatify.webp?raw=true",
+        rarity: "Collectible",
+        value: 1,
+        demand: "Null",
+        copies: "2.1k"
+      },
+      {
+        name: "2025 Sparkler",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/22232425spark.webp?raw=true",
+        rarity: "Collectible",
+        value: 1,
+        demand: "Meh",
+        copies: "1.1k"
+      },
+      {
+        name: "Seven Stars",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/sevenstar.png?raw=true",
+        rarity: "Collectible",
+        value: "TBD",
+        demand: "Good",
+        copies: 11
+      },
+      {
+        name: "Green Hot",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/greenhot.png?raw=true",
+        rarity: "Collectible",
+        value: "TBD",
+        demand: "Good",
+        copies: 5
+      },
+      {
+        name: "Pink Hot",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true",
+        rarity: "Collectible",
+        value: "TBD",
+        demand: "Good",
+        copies: 4
+      },
+      {
+        name: "Blue Hot",
+        image: "https://github.com/nightaky/value-chart/blob/main/swordpng/pinkbluehot.png?raw=true",
+        rarity: "Collectible",
+        value: "TBD",
+        demand: "Good",
+        copies: 4
+      }
+    ];
+
+    // ========================================================
+    // OTOMATİK SIRALAMA SİSTEMİ (En yüksek value'den düşüğe)
+    // ========================================================
+    swords.sort((a, b) => {
+      const getNum = (val) => {
+        if (typeof val === 'number') return val;
+        // String içindeki rakamları bulur (Örn: "240+" -> 240, "TBD" -> 0)
+        let num = parseFloat(String(val).replace(/[^0-9.]/g, ''));
+        return isNaN(num) ? 0 : num;
+      };
+      return getNum(b.value) - getNum(a.value);
+    });
+    // ========================================================
 
     const tabsContainer = document.getElementById("tabs");
     const contentWrapper = document.getElementById("content-wrapper");
 
-    const rarities = ["Godly", "Exclusive", "Legendary", "Collectible", "Scammer"];
+    // Scammer kategorisi kaldırıldı
+    const rarities = ["Godly", "Exclusive", "Legendary", "Collectible"];
     
     // Tab Butonlarını ve İçerik Kutularını Oluşturma
     rarities.forEach((r, index) => {
-      // Buton Oluştur
       let btn = document.createElement("button");
       btn.className = index === 0 ? "tab-btn active" : "tab-btn";
       btn.innerText = r;
@@ -378,9 +774,7 @@
       btn.dataset.index = index;
       tabsContainer.appendChild(btn);
 
-      // Kutuyu (Section) Oluştur
       let section = document.createElement("div");
-      // Sadece ilk tab başta aktif ve sağdan kayarak gelmiş gibi görünsün
       section.className = index === 0 ? "rarity-section active slide-right" : "rarity-section";
       section.id = "section-" + r;
       section.innerHTML = `<div class="cards" id="cards-${r}"></div>`;
@@ -395,7 +789,6 @@
         case "Exclusive": rarityColor = "#b84ac4"; break; 
         case "Collectible": rarityColor = "#00bacc"; break; 
         case "Legendary": rarityColor = "#e69c24"; break; 
-        case "Scammer": rarityColor = "#555555"; break;
       }
       
       let demandColor = "#ffffff";
@@ -405,13 +798,13 @@
         case "good": demandColor = "#3a9641"; break; 
         case "normal": demandColor = "#a3a3a3"; break; 
         case "meh": demandColor = "#e63939"; break;
-        case "null": demandColor = "#555555"; break;
+        case "null": demandColor = "#666666"; break;
       }
 
       let cardHTML = `
-        <div class="card" style="border-color: ${rarityColor}; box-shadow: 0 0 10px ${rarityColor}33;" 
-             onmouseover="this.style.boxShadow='0 0 20px ${rarityColor}80'" 
-             onmouseout="this.style.boxShadow='0 0 10px ${rarityColor}33'">
+        <div class="card" style="border-color: ${rarityColor}; box-shadow: 0 0 10px ${rarityColor}40;" 
+             onmouseover="this.style.boxShadow='0 0 25px ${rarityColor}90'" 
+             onmouseout="this.style.boxShadow='0 0 10px ${rarityColor}40'">
           <h3>${s.name}</h3>
           <img src="${s.image}" alt="${s.name}" onerror="this.style.display='none'">
           <div class="card-info">
@@ -428,7 +821,7 @@
       if(sectionCards) sectionCards.innerHTML += cardHTML;
     });
 
-    // Tab Değiştirme Mantığı ve Yön Bulma
+    // Tab Değiştirme Animasyonları
     let currentTabIndex = 0;
     const tabBtns = document.querySelectorAll(".tab-btn");
     const sections = document.querySelectorAll(".rarity-section");
@@ -438,16 +831,13 @@
         const targetId = btn.dataset.target;
         const newIndex = parseInt(btn.dataset.index);
 
-        if (newIndex === currentTabIndex) return; // Zaten bu tab'daysak hiçbir şey yapma
+        if (newIndex === currentTabIndex) return; 
 
-        // Tıklanan tab eskisinin sağında mı solunda mı? (Buna göre animasyon class'ı veriyoruz)
         const directionClass = newIndex > currentTabIndex ? "slide-right" : "slide-left";
 
-        // Butonların görselini güncelle
         tabBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
 
-        // Kutuları gizle ve yenisini animasyonla göster
         sections.forEach(sec => {
           sec.classList.remove("active", "slide-right", "slide-left");
           if (sec.id === "section-" + targetId) {
