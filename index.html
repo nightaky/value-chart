@@ -8,64 +8,123 @@
     body { 
       background-color: #0a0a0a; 
       color: #eaeaea; 
-      font-family: Arial, sans-serif; /* Font düzeltildi */
+      font-family: Arial, sans-serif; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
       max-width: 90%;
       margin: auto;
+      overflow-x: hidden; /* Yan kaymaları engellemek için */
     }
     
     h1 { 
       margin-top: 30px; 
       letter-spacing: 1px;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      margin-bottom: 5px;
     }
 
     .subtitle {
-      margin-top: 5px;
       color: #aaaaaa;
       font-weight: normal;
-      font-size: 16px;
+      font-size: 14px;
       text-align: center;
       font-style: italic;
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+
+    /* MODERN TAB MENÜSÜ */
+    .tabs-container {
+      display: flex;
+      gap: 10px;
+      background: #141414;
+      padding: 8px;
+      border-radius: 30px;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      background: transparent;
+      color: #888;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      font-family: Arial, sans-serif;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: #222;
+    }
+
+    .tab-btn.active {
+      background: #333;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    /* İÇERİK ALANI VE ANİMASYONLAR */
+    #content-wrapper {
+      width: 100%;
+      position: relative;
+      min-height: 400px;
     }
 
     .rarity-section {
+      display: none; /* Varsayılan olarak hepsi gizli */
       width: 100%;
-      margin: 30px 0;
+      animation-duration: 0.35s;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-out;
+    }
+
+    .rarity-section.active {
+      display: block; /* Sadece aktif olan görünür */
+    }
+
+    /* Sağdan ve Soldan Kayma Animasyonları */
+    @keyframes slideInFromRight {
+      from { transform: translateX(40px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
     
-    .rarity-title {
-      font-size: 24px;
-      margin: 10px;
-      text-align: center;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-      color: #ffffff;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+    @keyframes slideInFromLeft {
+      from { transform: translateX(-40px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
+
+    .slide-right { animation-name: slideInFromRight; }
+    .slide-left { animation-name: slideInFromLeft; }
 
     .cards {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
+      gap: 12px; /* Kartlar arası boşluk biraz azaltıldı */
       padding: 10px;
     }
 
-    /* KART TASARIMI */
+    /* KART TASARIMI - KÜÇÜLTÜLDÜ VE RENGİ AÇILDI */
     .card { 
-      background: linear-gradient(160deg, #1c1c1c 0%, #050505 100%); 
+      /* Gradient çok hafif daha açık bir tona çekildi */
+      background: linear-gradient(160deg, #2a2a2a 0%, #111111 100%); 
       border: 2px solid white; 
-      border-radius: 8px; /* Köşeler biraz daha keskinleştirildi */
-      width: 160px; /* Yazılar rahat sığsın diye hafif genişletildi */
-      height: 250px;
+      border-radius: 8px; 
+      width: 135px; /* Kartlar daha dar */
+      height: 205px; /* Kartlar daha kısa */
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 15px; 
+      padding: 12px; 
       transition: transform 0.2s ease, box-shadow 0.2s ease; 
       position: relative;
       overflow: hidden;
@@ -75,14 +134,13 @@
       transform: translateY(-5px); 
     }
 
-    /* Başlık: Artık kesilmeyecek, 2 satıra inebilecek */
     .card h3 {
-      font-size: 14px;
-      margin: 0 0 10px 0;
+      font-size: 12px; /* Yazı boyutu küçüldü */
+      margin: 0 0 8px 0;
       text-align: center;
       width: 100%;
-      line-height: 1.3;
-      min-height: 36px; /* Uzun isimler için yer ayrıldı */
+      line-height: 1.2;
+      min-height: 28px; 
       display: flex;
       align-items: center;
       justify-content: center;
@@ -90,52 +148,48 @@
 
     .card img { 
       max-width: 100%; 
-      height: 85px; /* Fotoğraflar daha standart boyutta */
+      height: 65px; /* Fotoğraflar daha küçük (Orantılı) */
       object-fit: contain;
-      margin: 5px 0 15px 0; 
+      margin: 0 0 12px 0; 
       transition: transform 0.3s; 
-      filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.15));
+      filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.1));
     }
     
     .card:hover img { 
       transform: scale(1.1) rotate(2deg); 
     }
 
-    /* Kart İçi Bilgiler - Boşluklar azaltıldı */
+    /* Kart İçi Bilgiler */
     .card-info {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 8px; /* Yazılar arası daha yakın */
+      gap: 5px; /* Satırlar birbirine yaklaştı */
       margin-top: auto; 
-      font-size: 13px;
+      font-size: 11px; /* Fontlar küçüldü */
     }
 
     .rarity-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
 
     .value, .demand { 
       margin: 0;
       font-weight: bold; 
+      font-size: 12px;
     }
 
-    /* Dmd: ve Val: için biraz gölgeli kırık beyaz */
     .label {
       color: #b3b3b3; 
     }
 
-    .rarity { font-weight: bold; font-size: 11px; text-transform: uppercase;}
-    
-    .copies { 
-      font-size: 11px; 
-      color: #888; 
-    }
+    .rarity { font-weight: bold; font-size: 10px; text-transform: uppercase;}
+    .copies { font-size: 10px; color: #888; }
 
-    /* Butonlar ve Paneller (Aynı Bırakıldı) */
+    /* Butonlar ve Paneller */
     #infoBtn {
       position: fixed;
       bottom: 20px;
@@ -148,6 +202,7 @@
       cursor: pointer;
       font-weight: bold;
       transition: background 0.3s;
+      z-index: 99;
     }
     
     #infoBtn:hover {
@@ -200,7 +255,11 @@
   <h1>Custom Duels Sword Values</h1>
   <h3 class="subtitle">(Most Recent - CHECK THE INFO TAB)</h3>
   
-  <div id="swords"></div>
+  <!-- Tab Menüsü -->
+  <div class="tabs-container" id="tabs"></div>
+
+  <!-- İçeriklerin Geleceği Ana Kutu -->
+  <div id="content-wrapper"></div>
 
   <button id="infoBtn">Info</button>
   <div id="infoPanel">
@@ -304,39 +363,51 @@
         
   ];
 
-    const container = document.getElementById("swords");
+    const tabsContainer = document.getElementById("tabs");
+    const contentWrapper = document.getElementById("content-wrapper");
 
-    const rarities = ["Godly","Exclusive","Legendary","Collectible","Scammer"];
-    rarities.forEach(r => {
+    const rarities = ["Godly", "Exclusive", "Legendary", "Collectible", "Scammer"];
+    
+    // Tab Butonlarını ve İçerik Kutularını Oluşturma
+    rarities.forEach((r, index) => {
+      // Buton Oluştur
+      let btn = document.createElement("button");
+      btn.className = index === 0 ? "tab-btn active" : "tab-btn";
+      btn.innerText = r;
+      btn.dataset.target = r;
+      btn.dataset.index = index;
+      tabsContainer.appendChild(btn);
+
+      // Kutuyu (Section) Oluştur
       let section = document.createElement("div");
-      section.className = "rarity-section";
-      section.innerHTML = `<div class="rarity-title">${r}</div><div class="cards" id="cards-${r}"></div>`;
-      container.appendChild(section);
+      // Sadece ilk tab başta aktif ve sağdan kayarak gelmiş gibi görünsün
+      section.className = index === 0 ? "rarity-section active slide-right" : "rarity-section";
+      section.id = "section-" + r;
+      section.innerHTML = `<div class="cards" id="cards-${r}"></div>`;
+      contentWrapper.appendChild(section);
     });
 
+    // Kartları İlgili Kutuya Yerleştirme
     swords.forEach(s => {
-      // Çerçeve renkleri hafif karartıldı
       let rarityColor = "#ffffff"; 
       switch(s.rarity) {
-        case "Godly": rarityColor = "#e63939"; break; // Karartılmış kırmızı
-        case "Exclusive": rarityColor = "#b84ac4"; break; // Karartılmış mor
-        case "Collectible": rarityColor = "#00bacc"; break; // Karartılmış cyan
-        case "Legendary": rarityColor = "#e69c24"; break; // Karartılmış turuncu
+        case "Godly": rarityColor = "#e63939"; break; 
+        case "Exclusive": rarityColor = "#b84ac4"; break; 
+        case "Collectible": rarityColor = "#00bacc"; break; 
+        case "Legendary": rarityColor = "#e69c24"; break; 
         case "Scammer": rarityColor = "#555555"; break;
       }
       
-      // Demand renkleri de karartıldı
       let demandColor = "#ffffff";
       switch(s.demand.toLowerCase()) {
         case "magnificent": demandColor = "#b84ac4"; break;
         case "great": demandColor = "#00bacc"; break;
-        case "good": demandColor = "#3a9641"; break; // Karartılmış yeşil
-        case "normal": demandColor = "#a3a3a3"; break; // Karartılmış gri/beyaz
+        case "good": demandColor = "#3a9641"; break; 
+        case "normal": demandColor = "#a3a3a3"; break; 
         case "meh": demandColor = "#e63939"; break;
         case "null": demandColor = "#555555"; break;
       }
 
-      // Val: ve Dmd: gri yapıldı (.label sınıfı ile)
       let cardHTML = `
         <div class="card" style="border-color: ${rarityColor}; box-shadow: 0 0 10px ${rarityColor}33;" 
              onmouseover="this.style.boxShadow='0 0 20px ${rarityColor}80'" 
@@ -353,10 +424,42 @@
           </div>
         </div>
       `;
-      let section = document.getElementById("cards-" + s.rarity);
-      if(section) section.innerHTML += cardHTML;
+      let sectionCards = document.getElementById("cards-" + s.rarity);
+      if(sectionCards) sectionCards.innerHTML += cardHTML;
     });
 
+    // Tab Değiştirme Mantığı ve Yön Bulma
+    let currentTabIndex = 0;
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    const sections = document.querySelectorAll(".rarity-section");
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.dataset.target;
+        const newIndex = parseInt(btn.dataset.index);
+
+        if (newIndex === currentTabIndex) return; // Zaten bu tab'daysak hiçbir şey yapma
+
+        // Tıklanan tab eskisinin sağında mı solunda mı? (Buna göre animasyon class'ı veriyoruz)
+        const directionClass = newIndex > currentTabIndex ? "slide-right" : "slide-left";
+
+        // Butonların görselini güncelle
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        // Kutuları gizle ve yenisini animasyonla göster
+        sections.forEach(sec => {
+          sec.classList.remove("active", "slide-right", "slide-left");
+          if (sec.id === "section-" + targetId) {
+            sec.classList.add("active", directionClass);
+          }
+        });
+
+        currentTabIndex = newIndex;
+      });
+    });
+
+    // Info Buton Tıklaması
     const infoBtn = document.getElementById("infoBtn");
     const infoPanel = document.getElementById("infoPanel");
     infoBtn.addEventListener("click", () => {
