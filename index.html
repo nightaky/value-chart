@@ -6,9 +6,9 @@
   <style>
     /* Genel Arkaplan ve Yazı Ayarları */
     body { 
-      background-color: #0a0a0a; /* Premium derin siyah */
+      background-color: #0a0a0a; 
       color: #eaeaea; 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Daha modern bir font */
+      font-family: Arial, sans-serif; /* Font düzeltildi */
       display: flex; 
       flex-direction: column; 
       align-items: center; 
@@ -51,47 +51,48 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 15px; /* Kartlar arası boşluk */
+      gap: 15px;
       padding: 10px;
     }
 
-    /* KART TASARIMI (Gönderdiğin resimdeki stil) */
+    /* KART TASARIMI */
     .card { 
-      /* Koyu siyahtan hafif açık siyaha gradient */
       background: linear-gradient(160deg, #1c1c1c 0%, #050505 100%); 
-      border: 2px solid white; /* JS kısmında rarity'e göre değişecek */
-      border-radius: 12px; 
-      width: 150px; /* Resimdeki gibi daha dikey bir form */
-      height: 220px;
+      border: 2px solid white; 
+      border-radius: 8px; /* Köşeler biraz daha keskinleştirildi */
+      width: 160px; /* Yazılar rahat sığsın diye hafif genişletildi */
+      height: 250px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 12px; 
+      padding: 15px; 
       transition: transform 0.2s ease, box-shadow 0.2s ease; 
       position: relative;
       overflow: hidden;
     }
 
     .card:hover { 
-      transform: translateY(-8px); 
-      /* Hover durumunda çerçevenin parlaması için box-shadow (JS içinde ayarlanıyor) */
+      transform: translateY(-5px); 
     }
 
+    /* Başlık: Artık kesilmeyecek, 2 satıra inebilecek */
     .card h3 {
       font-size: 14px;
       margin: 0 0 10px 0;
       text-align: center;
       width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1.3;
+      min-height: 36px; /* Uzun isimler için yer ayrıldı */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .card img { 
       max-width: 100%; 
-      max-height: 90px; 
+      height: 85px; /* Fotoğraflar daha standart boyutta */
       object-fit: contain;
-      margin: auto 0; /* Resmi ortalar */
+      margin: 5px 0 15px 0; 
       transition: transform 0.3s; 
       filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.15));
     }
@@ -100,27 +101,41 @@
       transform: scale(1.1) rotate(2deg); 
     }
 
-    /* Kart İçi Bilgiler */
+    /* Kart İçi Bilgiler - Boşluklar azaltıldı */
     .card-info {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      margin-top: auto; /* Yazıları en alta iter */
-      font-size: 12px;
+      gap: 8px; /* Yazılar arası daha yakın */
+      margin-top: auto; 
+      font-size: 13px;
     }
 
-    .value { font-weight: bold; }
+    .rarity-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .value, .demand { 
+      margin: 0;
+      font-weight: bold; 
+    }
+
+    /* Dmd: ve Val: için biraz gölgeli kırık beyaz */
+    .label {
+      color: #b3b3b3; 
+    }
+
     .rarity { font-weight: bold; font-size: 11px; text-transform: uppercase;}
-    .demand { font-weight: bold; }
+    
     .copies { 
       font-size: 11px; 
       color: #888; 
-      text-align: right; /* Resimdeki seri numaraları gibi sağ alta yasladık */
-      margin-top: 5px;
     }
 
-    /* Sol alt köşe buton */
+    /* Butonlar ve Paneller (Aynı Bırakıldı) */
     #infoBtn {
       position: fixed;
       bottom: 20px;
@@ -162,7 +177,6 @@
       font-size: 18px;
     }
 
-    /* Fotoğraflar yan yana */
     .photo-row {
       display: flex;
       justify-content: space-around;
@@ -176,7 +190,6 @@
     #infoPanel ul { padding-left: 20px; font-size: 13px; color: #ccc;}
     #infoPanel ul li { margin-bottom: 10px; }
     
-    /* Scrollbar Tasarımı (Premium his için) */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0a0a0a; }
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -189,7 +202,6 @@
   
   <div id="swords"></div>
 
-  <!-- Info Buton & Panel -->
   <button id="infoBtn">Info</button>
   <div id="infoPanel">
     <h2>Credits</h2>
@@ -294,7 +306,6 @@
 
     const container = document.getElementById("swords");
 
-    // Rarity grupları
     const rarities = ["Godly","Exclusive","Legendary","Collectible","Scammer"];
     rarities.forEach(r => {
       let section = document.createElement("div");
@@ -304,27 +315,28 @@
     });
 
     swords.forEach(s => {
-      // Çerçeve (outline) renkleri burada belirleniyor (Resimdeki renklere uygun)
+      // Çerçeve renkleri hafif karartıldı
       let rarityColor = "#ffffff"; 
       switch(s.rarity) {
-        case "Godly": rarityColor = "#ff4d4d"; break; // Kırmızı
-        case "Exclusive": rarityColor = "#d05ce3"; break; // Mor / Pembe
-        case "Collectible": rarityColor = "#00e5ff"; break; // Camgöbeği (Cyan)
-        case "Legendary": rarityColor = "#ffb347"; break; // Turuncu
-        case "Scammer": rarityColor = "#555555"; break; // Koyu Gri
+        case "Godly": rarityColor = "#e63939"; break; // Karartılmış kırmızı
+        case "Exclusive": rarityColor = "#b84ac4"; break; // Karartılmış mor
+        case "Collectible": rarityColor = "#00bacc"; break; // Karartılmış cyan
+        case "Legendary": rarityColor = "#e69c24"; break; // Karartılmış turuncu
+        case "Scammer": rarityColor = "#555555"; break;
       }
       
+      // Demand renkleri de karartıldı
       let demandColor = "#ffffff";
       switch(s.demand.toLowerCase()) {
-        case "magnificent": demandColor = "#d05ce3"; break;
-        case "great": demandColor = "#00e5ff"; break;
-        case "good": demandColor = "#4caf50"; break;
-        case "normal": demandColor = "#cccccc"; break;
-        case "meh": demandColor = "#ff4d4d"; break;
+        case "magnificent": demandColor = "#b84ac4"; break;
+        case "great": demandColor = "#00bacc"; break;
+        case "good": demandColor = "#3a9641"; break; // Karartılmış yeşil
+        case "normal": demandColor = "#a3a3a3"; break; // Karartılmış gri/beyaz
+        case "meh": demandColor = "#e63939"; break;
         case "null": demandColor = "#555555"; break;
       }
 
-      // Kartın stiline doğrudan rarityColor değişkenini border-color ve box-shadow olarak atıyoruz
+      // Val: ve Dmd: gri yapıldı (.label sınıfı ile)
       let cardHTML = `
         <div class="card" style="border-color: ${rarityColor}; box-shadow: 0 0 10px ${rarityColor}33;" 
              onmouseover="this.style.boxShadow='0 0 20px ${rarityColor}80'" 
@@ -332,12 +344,12 @@
           <h3>${s.name}</h3>
           <img src="${s.image}" alt="${s.name}" onerror="this.style.display='none'">
           <div class="card-info">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="rarity-row">
                <span class="rarity" style="color: ${rarityColor}">${s.rarity}</span>
                <span class="copies">#${s.copies}</span>
             </div>
-            <p class="value">Val: ${s.value}</p>
-            <p class="demand" style="color: ${demandColor}">Dmd: ${s.demand}</p>
+            <p class="value"><span class="label">Val:</span> ${s.value}</p>
+            <p class="demand"><span class="label">Dmd:</span> <span style="color: ${demandColor}">${s.demand}</span></p>
           </div>
         </div>
       `;
@@ -345,7 +357,6 @@
       if(section) section.innerHTML += cardHTML;
     });
 
-    // Info panel aç-kapa
     const infoBtn = document.getElementById("infoBtn");
     const infoPanel = document.getElementById("infoPanel");
     infoBtn.addEventListener("click", () => {
